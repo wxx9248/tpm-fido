@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"sync"
 	"time"
@@ -139,6 +140,11 @@ func (pe *Pinentry) prompt(req *request, prompt string) {
 }
 
 func FindPinentryGUIPath() string {
+	override := os.Getenv("PINENTRY_PROGRAM")
+	if override != "" {
+		return override
+	}
+
 	candidates := []string{
 		"pinentry-gnome3",
 		"pinentry-qt5",
